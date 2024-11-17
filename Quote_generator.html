@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Quote Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      margin-bottom: 30px;
+    }
+    button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    .quote-display {
+      margin-top: 20px;
+      font-style: italic;
+    }
+    .favorites {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Random Quote Generator</h2>
+    <button onclick="handleGetQuote()">Get Quote</button>
+    <div id="quoteDisplay" class="quote-display"></div>
+    <div class="favorites">
+      <h3>Favorites</h3>
+      <ul id="favoritesList"></ul>
+    </div>
+  </div>
+</body>
+<script>
+  const quotes = [
+    "Believe in yourself and all that you are.",
+    "Success is not final, failure is not fatal.",
+    "Don't watch the clock; do what it does. Keep going.",
+    "The harder you work for something, the greater you'll feel when you achieve it.",
+    "Success usually comes to those who are too busy to be looking for it."
+  ];
+
+  function getQuote() {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        resolve(randomQuote);
+      }, 1000);
+    });
+  }
+
+  function handleGetQuote() {
+    const display = document.getElementById("quoteDisplay");
+    display.textContent = "Fetching quote...";
+    getQuote()
+      .then(quote => {
+        display.textContent = quote;
+        const markFavorite = document.createElement("button");
+        markFavorite.textContent = "Mark as Favorite";
+        markFavorite.onclick = () => addFavorite(quote);
+        display.appendChild(markFavorite);
+      });
+  }
+
+  function addFavorite(quote) {
+    const favoritesList = document.getElementById("favoritesList");
+    const listItem = document.createElement("li");
+    listItem.textContent = quote;
+    favoritesList.appendChild(listItem);
+  }
+</script>
+</html>

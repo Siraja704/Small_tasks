@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      margin-bottom: 30px;
+    }
+    input, button {
+      padding: 10px;
+      margin-right: 10px;
+      font-size: 16px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      padding: 5px;
+      border-bottom: 1px solid #ddd;
+    }
+    li.completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>To-Do List</h2>
+    <input type="text" id="taskInput" placeholder="New task">
+    <button onclick="addTask()">Add Task</button>
+    <ul id="taskList"></ul>
+  </div>
+</body>
+<script>
+  function fetchTasks() {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(["Buy groceries", "Walk the dog", "Finish homework"]);
+      }, 2000);
+    });
+  }
+
+  function loadTasks() {
+    const taskList = document.getElementById("taskList");
+    fetchTasks().then(tasks => {
+      tasks.forEach(task => {
+        const listItem = document.createElement("li");
+        listItem.textContent = task;
+        listItem.onclick = () => toggleComplete(listItem);
+        taskList.appendChild(listItem);
+      });
+    });
+  }
+
+  function addTask() {
+    const taskInput = document.getElementById("taskInput");
+    const taskList = document.getElementById("taskList");
+    const listItem = document.createElement("li");
+    listItem.textContent = taskInput.value;
+    listItem.onclick = () => toggleComplete(listItem);
+    taskList.appendChild(listItem);
+    taskInput.value = "";
+  }
+
+  function toggleComplete(taskItem) {
+    taskItem.classList.toggle("completed");
+  }
+
+  window.onload = loadTasks;
+</script>
+</html>
